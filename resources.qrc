@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/config.json</file>
+        <file>qml/Main.qml</file>
+        <file>qml/model/DataModel.qml</file>
+        <file>assets/images/felgo-logo.png</file>
+        <file>assets/images/twistomaze.png</file>
+        <file>assets/images/slippipedia.png</file>
+        <file>assets/images/tip.png</file>
+    </qresource>
+</RCC>
