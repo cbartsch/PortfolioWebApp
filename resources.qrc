@@ -7,5 +7,15 @@
         <file>assets/images/twistomaze.png</file>
         <file>assets/images/slippipedia.png</file>
         <file>assets/images/tip.png</file>
+        <file>assets/images/blockoban.png</file>
+        <file>assets/images/boolitaire.png</file>
+        <file>assets/images/electron.png</file>
+        <file>qml/controls/MainListItem.qml</file>
+        <file>qml/controls/DetailItem.qml</file>
+        <file>qml/controls/AppToolButton.qml</file>
+        <file>qml/controls/UiAnimation.qml</file>
+        <file>qml/controls/ImageSpinner.qml</file>
+        <file>qml/pages/MainPage.qml</file>
+        <file>qml/theme/AppTheme.qml</file>
     </qresource>
 </RCC>

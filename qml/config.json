@@ -1,8 +1,8 @@
 {
   "title": "PortfolioWebApp",
-  "identifier": "com.yourcompany.wizardEVAP.PortfolioWebApp",
+  "identifier": "at.cb.PortfolioWebApp",
   "orientation": "auto",
   "versioncode": 1,
-  "versionname": "1.0.0",
+  "versionname": "1.0",
   "stage": "test"
 }

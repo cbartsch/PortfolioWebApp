@@ -1,12 +1,8 @@
+import QtQuick 2.0
 import Felgo 3.0
-import QtQuick 2.14
 
-import "model"
-import "pages"
-
-App {
-
-  onInitTheme: {
+Item {
+  function init() {
     Theme.colors.tintColor = "#A0008B"
 
     // dark theme
@@ -30,14 +26,5 @@ App {
     Theme.appButton.rippleEffect = true
     Theme.appButton.horizontalMargin = 0
     Theme.appButton.horizontalPadding = dp(2)
-  }
-
-  DataModel {
-    id: dataModel
-  }
-
-  NavigationStack {
-
-    MainPage { }
   }
 }
