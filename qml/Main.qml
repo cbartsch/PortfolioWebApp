@@ -3,33 +3,23 @@ import QtQuick 2.14
 
 import "model"
 import "pages"
+import "theme"
 
 App {
 
-  onInitTheme: {
-    Theme.colors.tintColor = "#A0008B"
+  onInitTheme: theme.init()
 
-    // dark theme
-    Theme.colors.textColor = "white"
-    Theme.colors.secondaryTextColor = "#aaa"
-    Theme.colors.secondaryBackgroundColor = "#222"
-    Theme.colors.controlBackgroundColor = "#111"
-    Theme.colors.dividerColor = "#222"
-    Theme.colors.selectedBackgroundColor = "#888"
-    Theme.colors.backgroundColor = "black"
-    Theme.colors.inputCursorColor = "white"
+  GoogleAnalytics {
+    propertyId: "UA-163972040-1"
 
-    Theme.tabBar.backgroundColor = Theme.backgroundColor
+    onPluginLoaded: {
+      logScreen("Main")
+      console.log("GA loaded.")
+    }
+  }
 
-    Theme.listItem.backgroundColor = Theme.controlBackgroundColor
-    Theme.listItem.activeBackgroundColor = Theme.secondaryBackgroundColor
-
-    Theme.navigationTabBar.titleOffColor= "white"
-    Theme.navigationTabBar.backgroundColor = Theme.controlBackgroundColor
-
-    Theme.appButton.rippleEffect = true
-    Theme.appButton.horizontalMargin = 0
-    Theme.appButton.horizontalPadding = dp(2)
+  AppTheme {
+    id: theme
   }
 
   DataModel {
