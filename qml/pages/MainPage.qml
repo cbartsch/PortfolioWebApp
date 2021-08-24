@@ -53,7 +53,7 @@ ListPage {
         }
       }
 
-      hasDetails: ["Apps", "Games"].indexOf(model.section) >= 0
+      hasDetails: dataModel.hasDetails(model.section)
       detailsHovered: detailItem.hovered
     }
 

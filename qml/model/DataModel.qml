@@ -8,11 +8,15 @@ Item {
   readonly property var sectionOrder: ["games", "apps", "contact", "more"]
 
   readonly property var sectionNames: ({
-                                        games: "Games",
+                                         games: "Games",
                                          apps: "Apps & Libraries",
                                          contact: "Contact",
                                          more: "More",
                                        })
+
+  function hasDetails(section) {
+    return ["apps", "games"].indexOf(section) >= 0
+  }
 
   readonly property var mainListModel: [
     {
@@ -85,12 +89,13 @@ Item {
 
       detailItems: [
         {
-          icon: IconType.apple,
+          image: "app_store.png",
+          imagePadding: dp(10),
           url: "https://apps.apple.com/us/app/twistomaze/id1500792067",
           description: "Download from App Store"
         },
         {
-          icon: IconType.google,
+          image: "play_store.png",
           url: "https://play.google.com/store/apps/details?id=at.impossibru.IsoPlatformer",
           description: "Download from Google Play"
         },
@@ -116,12 +121,13 @@ Item {
 
       detailItems: [
         {
-          icon: IconType.apple,
+          image: "app_store.png",
+          imagePadding: dp(10),
           url: "https://apps.apple.com/us/app/the-incredible-platformer/id1347057729",
           description: "Download from App Store"
         },
         {
-          icon: IconType.google,
+          image: "play_store.png",
           url: "https://play.google.com/store/apps/details?id=at.impossibru.TIP",
           description: "Download from Google Play"
         },
@@ -152,12 +158,13 @@ Item {
 
       detailItems: [
         {
-          icon: IconType.apple,
+          image: "app_store.png",
+          imagePadding: dp(10),
           url: "https://apps.apple.com/us/app/electron/id1347663193",
           description: "Download from App Store"
         },
         {
-          icon: IconType.google,
+          image: "play_store.png",
           url: "https://play.google.com/store/apps/details?id=at.impossibru.electron",
           description: "Download from Google Play"
         },
@@ -178,12 +185,13 @@ Item {
 
       detailItems: [
         {
-          icon: IconType.apple,
+          image: "app_store.png",
+          imagePadding: dp(10),
           url: "https://apps.apple.com/app/id1450537998",
           description: "Download from App Store"
         },
         {
-          icon: IconType.google,
+          image: "play_store.png",
           url: "https://play.google.com/store/apps/details?id=at.impossibru.blockoban",
           description: "Download from Google Play"
         },
@@ -204,7 +212,7 @@ Item {
 
       detailItems: [
         {
-          icon: IconType.google,
+          image: "play_store.png",
           url: "https://play.google.com/store/apps/details?id=at.impossibru.boolitaire",
           description: "Download from Google Play"
         },

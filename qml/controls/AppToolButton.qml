@@ -34,7 +34,7 @@ ToolButton {
       visible: !!icon
       anchors.centerIn: parent
       color: toolBtn.checked ? Theme.tintColor : Theme.textColor
-      size: dp(32)
+      size: toolBtn.size
 
       Behavior on color { UiAnimation { } }
     }

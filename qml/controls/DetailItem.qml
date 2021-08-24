@@ -52,24 +52,73 @@ Item {
              : []
     }
 
-    Row {
-      height: dp(48) + dp(Theme.contentPadding)
+    Flow {
+      anchors.right: parent.right
       anchors.left: parent.left
-      anchors.leftMargin: dp(64)
-      spacing: dp(Theme.contentPadding) / 2
+      anchors.margins: dp(Theme.contentPadding)
+    //  spacing: dp(Theme.contentPadding) / 2
 
       Repeater {
         id: repeater
         model: itemModel.detailItems || []
 
-        AppToolButton {
-          height: dp(48)
-          width: height
-          anchors.verticalCenter: parent.verticalCenter
-          iconType: modelData.icon
-          toolTipText: modelData.description || modelData.url || ""
+        Item {
+          width: Math.max(childrenRect.width, height)
+          height: dp(72)
 
-          onClicked: nativeUtils.openUrl(modelData.url)
+          RippleMouseArea {
+            id: detailItemMouse
+            anchors.fill: parent
+            onClicked: nativeUtils.openUrl(modelData.url)
+            cursorShape: Qt.PointingHandCursor
+            hoverEffectEnabled: true
+            backgroundColor: pressed
+                             ? Theme.listItem.activeBackgroundColor
+                             : Theme.listItem.selectedBackgroundColor
+            fillColor: backgroundColor
+            opacity: 0.5
+          }
+
+          Icon {
+            height: dp(48)
+            width: visible ? height : 0
+            size: dp(24)
+
+            visible: !!modelData.icon
+            anchors.centerIn: parent
+            icon: modelData.icon || ""
+
+            Rectangle {
+              anchors.fill: parent
+              color: Theme.controlBackgroundColor
+              radius: dp(8)
+              z: -1
+
+              border.width: dp(1)
+              border.color: Theme.textColor
+            }
+          }
+
+          Item {
+            height: parent.height
+            width: itemImage.width + 2 * (modelData.imagePadding || 0)
+            anchors.verticalCenter: parent.verticalCenter
+            visible: !!modelData.image
+
+            AppImage {
+              id: itemImage
+              anchors.centerIn: parent
+              height: parent.height - 2 * (modelData.imagePadding || 0)
+              source: parent.visible ? "../../assets/images/" + modelData.image : ""
+              fillMode: Image.PreserveAspectFit
+            }
+          }
+
+          ToolTip {
+            parent: parent
+            visible: detailItemMouse.containsMouse
+            text: modelData.description || modelData.url || ""
+          }
         }
       }
     }

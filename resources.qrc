@@ -17,5 +17,7 @@
         <file>qml/controls/ImageSpinner.qml</file>
         <file>qml/pages/MainPage.qml</file>
         <file>qml/theme/AppTheme.qml</file>
+        <file>assets/images/play_store.png</file>
+        <file>assets/images/app_store.png</file>
     </qresource>
 </RCC>
