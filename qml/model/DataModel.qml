@@ -5,13 +5,15 @@ Item {
 
   id: item
 
-  readonly property var sectionOrder: ["games", "apps", "contact", "more"]
+  readonly property bool isAndroid: Qt.platform.os === "android"
+  readonly property bool isIos: Qt.platform.os === "ios"
+
+  readonly property var sectionOrder: ["games", "apps", "more"]
 
   readonly property var sectionNames: ({
                                          games: "Games",
                                          apps: "Apps & Libraries",
-                                         contact: "Contact",
-                                         more: "More",
+                                         more: "Contact & More",
                                        })
 
   function hasDetails(section) {
@@ -73,6 +75,26 @@ Item {
         },
       ]
     },
+    {
+      section: "apps",
+      text: "Portfolio Web App.",
+      year: 2021,
+      detailText: qsTr("This application's source code. Running version %1.").arg(system.appVersionName),
+      icon: IconType.code,
+
+      detailImages: {
+        count: 0,
+        folder: "beatlib"
+      },
+
+      detailItems: [
+        {
+          icon: IconType.github,
+          url: "https://github.com/cbartsch/PortfolioWebApp",
+          description: "Source code on GitHub"
+        },
+      ]
+    },
 
     {
       section: "games",
@@ -90,12 +112,14 @@ Item {
       detailItems: [
         {
           image: "app_store.png",
-          imagePadding: dp(10),
+          imagePadding: 12,
+          visible: !isAndroid,
           url: "https://apps.apple.com/us/app/twistomaze/id1500792067",
           description: "Download from App Store"
         },
         {
           image: "play_store.png",
+          visible: !isIos,
           url: "https://play.google.com/store/apps/details?id=at.impossibru.IsoPlatformer",
           description: "Download from Google Play"
         },
@@ -122,12 +146,14 @@ Item {
       detailItems: [
         {
           image: "app_store.png",
-          imagePadding: dp(10),
+          imagePadding: 12,
+          visible: !isAndroid,
           url: "https://apps.apple.com/us/app/the-incredible-platformer/id1347057729",
           description: "Download from App Store"
         },
         {
           image: "play_store.png",
+          visible: !isIos,
           url: "https://play.google.com/store/apps/details?id=at.impossibru.TIP",
           description: "Download from Google Play"
         },
@@ -159,12 +185,14 @@ Item {
       detailItems: [
         {
           image: "app_store.png",
-          imagePadding: dp(10),
+          imagePadding: 12,
+          visible: !isAndroid,
           url: "https://apps.apple.com/us/app/electron/id1347663193",
           description: "Download from App Store"
         },
         {
           image: "play_store.png",
+          visible: !isIos,
           url: "https://play.google.com/store/apps/details?id=at.impossibru.electron",
           description: "Download from Google Play"
         },
@@ -186,12 +214,14 @@ Item {
       detailItems: [
         {
           image: "app_store.png",
-          imagePadding: dp(10),
+          imagePadding: 12,
+          visible: !isAndroid,
           url: "https://apps.apple.com/app/id1450537998",
           description: "Download from App Store"
         },
         {
           image: "play_store.png",
+          visible: !isIos,
           url: "https://play.google.com/store/apps/details?id=at.impossibru.blockoban",
           description: "Download from Google Play"
         },
@@ -220,7 +250,7 @@ Item {
     },
 
     {
-      section: "contact",
+      section: "more",
       text: "GitHub",
       detailText: "",
       icon: IconType.github,
@@ -229,15 +259,8 @@ Item {
 
     {
       section: "more",
-      text: "Portfolio Web App " + system.appVersionName,
-      detailText: "",
-      icon: IconType.code,
-      linkUrl: "https://github.com/cbartsch/PortfolioWebApp"
-    },
-    {
-      section: "more",
       text: "Made with Felgo SDK",
-      detailText: qsTr("Felgo for WebAssembly version: %1 based on Qt %2").arg(system.felgoVersion).arg(system.qtVersion),
+      detailText: qsTr("Felgo for WebAssembly version: %1 based on Qt %2\nhttps://felgo.com").arg(system.felgoVersion).arg(system.qtVersion),
       image: "felgo-logo.png",
       linkUrl: "https://felgo.com"
     }

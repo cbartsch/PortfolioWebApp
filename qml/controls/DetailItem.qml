@@ -65,6 +65,7 @@ Item {
         Item {
           width: Math.max(childrenRect.width, height)
           height: dp(72)
+          visible: modelData.visible !== false
 
           RippleMouseArea {
             id: detailItemMouse
@@ -101,14 +102,14 @@ Item {
 
           Item {
             height: parent.height
-            width: itemImage.width + 2 * (modelData.imagePadding || 0)
+            width: itemImage.width + dp(2 * (modelData.imagePadding || 0))
             anchors.verticalCenter: parent.verticalCenter
             visible: !!modelData.image
 
             AppImage {
               id: itemImage
               anchors.centerIn: parent
-              height: parent.height - 2 * (modelData.imagePadding || 0)
+              height: parent.height - dp(2 * (modelData.imagePadding || 0))
               source: parent.visible ? "../../assets/images/" + modelData.image : ""
               fillMode: Image.PreserveAspectFit
             }
