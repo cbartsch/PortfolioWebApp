@@ -24,6 +24,7 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:1.2.0"
 
+    implementation "com.google.android.gms:play-services-instantapps:17.0.0"
 
 }
 
@@ -41,8 +42,8 @@ android {
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion    androidCompileSdkVersion.toInteger()
-    buildToolsVersion    androidBuildToolsVersion
+    compileSdkVersion    project.hasProperty("androidCompileSdkVersion") ? androidCompileSdkVersion.toInteger() : 30
+    buildToolsVersion    project.hasProperty("androidBuildToolsVersion") ? androidBuildToolsVersion : "30.0.1"
 
     compileOptions {
       sourceCompatibility 1.8
@@ -51,11 +52,11 @@ android {
 
     defaultConfig {
       multiDexEnabled true
-      targetSdkVersion   androidCompileSdkVersion.toInteger()
-      applicationId    = productIdentifier
-      versionCode      = productVersionCode.toInteger()
-      versionName      = productVersionName
-      minSdkVersion    = project.hasProperty("qtMinSdkVersion") ? qtMinSdkVersion.toInteger() : 21
+      targetSdkVersion   project.hasProperty("androidCompileSdkVersion") ? androidCompileSdkVersion.toInteger() : 30
+      applicationId    = project.hasProperty("productIdentifier") ? productIdentifier : "at.cb.PortfolioWebApp"
+      versionCode      = project.hasProperty("productVersionCode") ? productVersionCode.toInteger() : 30
+      versionName      = project.hasProperty("productVersionName") ? productVersionName : 30
+      minSdkVersion    project.hasProperty("qtMinSdkVersion") ? qtMinSdkVersion.toInteger() : 21
 
       int qtVersionNr = project.hasProperty("qtVersionInt") ? qtVersionInt.toInteger() : 5132
       if (qtVersionNr < 5140) {
@@ -68,10 +69,12 @@ android {
 
     sourceSets {
         main {
+            def qt5Dir = project.hasProperty("qt5AndroidDir") ? qt5AndroidDir : ""
+
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
-            aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
-            res.srcDirs = [qt5AndroidDir + '/res', 'res']
+            java.srcDirs = [qt5Dir + '/src', 'src', 'java']
+            aidl.srcDirs = [qt5Dir + '/src', 'src', 'aidl']
+            res.srcDirs = [qt5Dir + '/res', 'res']
             resources.srcDirs = ['src']
             renderscript.srcDirs = ['src']
             assets.srcDirs = ['assets']
