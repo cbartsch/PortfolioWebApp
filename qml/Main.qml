@@ -48,15 +48,15 @@ App {
     MainPage { }
   }
 
-  AppText {
-    width: parent.width
-    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    style: Text.Outline
-    styleColor: "black"
-    visible: false
+//  AppText {
+//    width: parent.width
+//    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+//    style: Text.Outline
+//    styleColor: "black"
+//    visible: false
 
-    text: "dp scale is " + dpScale +
-          ", platform:" + webPlatform + "/" + webUserAgent +
-          ", isAndroid/Ios: " + isAndroid + "/" + isIos + "/" + isWasmMobile
-  }
+//    text: "dp scale is " + dpScale +
+//          ", platform:" + webPlatform + "/" + webUserAgent +
+//          ", isAndroid/Ios: " + isAndroid + "/" + isIos + "/" + isWasmMobile
+//  }
 }

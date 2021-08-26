@@ -2,10 +2,16 @@ import QtQuick 2.0
 import Felgo 3.0
 
 Item {
+  id: imageSpinner
+
   property alias listView: imgList
+  readonly property var currentImage: imgList.currentItem ? imgList.currentItem.image : null
+
   property alias btnPrevImg: btnPrevImg
   property alias btnNextImg: btnNextImg
   property alias model: imgList.model
+
+  signal imageClicked(var model)
 
   AppListView {
     id: imgList
@@ -23,24 +29,26 @@ Item {
     preferredHighlightEnd:   preferredHighlightBegin
 
     delegate: Item {
+      property alias image: image
+
       width: imgList.width * 0.9
       height: parent.height
 
       Rectangle {
         anchors.fill: parent
         color: Theme.secondaryBackgroundColor
-        visible: screenshot.status !== Image.Ready
+        visible: image.status !== Image.Ready
 
         Icon {
           anchors.centerIn: parent
-          icon: screenshot.status === Image.Loading
+          icon: image.status === Image.Loading
                 ? IconType.refresh
                 : IconType.warning
         }
       }
 
       AppImage {
-        id: screenshot
+        id: image
         width: parent.width
         height: parent.height
         //anchors.centerIn: parent
@@ -49,6 +57,11 @@ Item {
         smooth: true
 
         source: !detailItem.visible ? "" : modelData.imageUrl
+
+        MouseArea {
+          anchors.fill: parent
+          onClicked: imageSpinner.imageClicked(modelData)
+        }
       }
     }
   }
@@ -73,5 +86,30 @@ Item {
     iconType: IconType.angleright
     onClicked: imgList.currentIndex++
     visible: imgList.currentIndex < imgList.count - 1
+  }
+
+  Rectangle {
+    width: dp(40)
+    height: dp(32)
+    color: "#80000000"
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    anchors.margins: dp(2)
+    radius: height / 4
+
+    opacity: imgList.dragging || imgList.flicking ? 1 : 0
+
+    Behavior on opacity { UiAnimation { } }
+
+    AppText {
+      id: pageText
+      anchors.centerIn: parent
+
+      font.pixelSize: sp(16)
+      style: Text.Outline
+      styleColor: Theme.backgroundColor
+
+      text: qsTr("%1/%2").arg(imgList.currentIndex + 1).arg(imgList.count)
+    }
   }
 }

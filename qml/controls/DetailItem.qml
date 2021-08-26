@@ -5,13 +5,6 @@ import Felgo 3.0
 Item {
   id: detailItem
 
-  readonly property bool hovered: detailMouseArea.containsMouse ||
-                                  [spinner.btnPrevImg, spinner.btnNextImg].some(btn => btn.hovered) ||
-                                  repeater.model.some((obj, index) => {
-                                                        var item = repeater.itemAt(index)
-                                                        return item && item.hovered || false
-                                                      })
-
   property bool showItem: false
 
   property var itemModel: ({})
@@ -24,55 +17,67 @@ Item {
 
   Behavior on height { UiAnimation { } }
 
-  MouseArea {
-    id: detailMouseArea
-    anchors.fill: parent
-    hoverEnabled: true
-  }
-
   Column {
     id: content
     width: parent.width
 
     AppListItem {
       id: detailTextItem
-      enabled: false
 
       text: itemModel.description || ""
       visible: !!itemModel.description
       backgroundColor: Theme.backgroundColor
+      mouseArea.enabled: false
 
       textItem: AppText {
-        textFormat: Text.RichText
-
+        id: detailText
         text: itemModel.description || ""
+
         font.pixelSize: detailTextItem.textFontSize
         wrapMode: Text.WordWrap
         width: Math.min(implicitWidth, detailTextItem.textItemAvailableWidth)
         maximumLineCount: detailTextItem.textMaximumLineCount
         elide: Text.ElideRight
 
-        onLinkHovered: console.log("hovered link")
-        onLinkActivated: console.log("link activated", link), nativeUtils.openUrl(link)
+        textFormat: Text.StyledText
+        linkColor: Theme.tintLightColor
+        onLinkActivated: nativeUtils.openUrl(link)
+
+        MouseArea {
+          anchors.fill: parent
+          acceptedButtons: Qt.NoButton
+          cursorShape: detailText.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        }
       }
     }
 
-    ImageSpinner {
-      id: spinner
-
+    Item {
       height: dp(320)
       width: parent.width
-      visible: listView.count > 0
 
-      model: itemModel.detailImages
-             ? Array.apply(null, new Array(itemModel.detailImages.count)).map(
-                 (n, index) => (
-                   {
-                     imageUrl : qsTr("https://cbartsch.github.io/portfolio/screenshots/%1/%2.png")
-                     .arg(itemModel.detailImages.folder)
-                     .arg(index + 1)
-                   }))
-             : []
+      ImageSpinner {
+        id: spinner
+
+        width: parent.width
+        height: parent.height
+
+        Behavior on width { UiAnimation { } }
+        Behavior on height { UiAnimation { } }
+
+        visible: listView.count > 0
+
+        model: itemModel.detailImages
+               ? Array.apply(null, new Array(itemModel.detailImages.count)).map(
+                   (n, index) => (
+                     {
+                       imageUrl : qsTr("https://cbartsch.github.io/portfolio/screenshots/%1/%2.png")
+                       .arg(itemModel.detailImages.folder)
+                       .arg(index + 1)
+                     }))
+               : []
+
+        onImageClicked: modal.showFor(spinner, qsTr("%1 (%2 images)").arg(itemModel.text).arg(spinner.listView.count))
+      }
     }
 
     Flow {
@@ -144,6 +149,71 @@ Item {
             text: modelData.description || modelData.url || ""
           }
         }
+      }
+    }
+  }
+
+  AppModal {
+    id: modal
+
+    pushBackContent: app.contentItem
+
+    backgroundColor: Theme.backgroundColor
+
+    modalHeight: app.height * 0.9
+    fullscreen: false
+
+    property string title: ""
+
+    property Item prevParent: null
+    property Item currentItem: null
+
+
+    NavigationStack {
+      anchors.bottom: undefined
+      height: modal.modalHeight - dp(Theme.contentPadding) * 1.2
+
+      Page {
+        title: modal.title
+
+        rightBarItem: IconButtonBarItem {
+          icon: IconType.close
+          onClicked: modal.doClose()
+        }
+
+        Item {
+          id: itemContainer
+          anchors.fill: parent
+        }
+      }
+    }
+
+    onClosed: restoreItem()
+
+    function showFor(item, title) {
+      if(modal.currentItem) {
+        return
+      }
+
+      modal.prevParent = item.parent
+      modal.currentItem = item
+      item.parent = itemContainer
+
+      modal.title = title
+
+      open()
+    }
+
+    function doClose() {
+     // restoreImg()
+      close()
+    }
+
+    function restoreItem() {
+      if(prevParent && currentItem) {
+        currentItem.parent = prevParent
+        currentItem = null
+        prevParent = null
       }
     }
   }

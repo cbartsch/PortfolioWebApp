@@ -5,7 +5,6 @@ AppListItem {
   id: mainItem
 
   property bool hasDetails: false
-  property bool detailsHovered: false
 
   detailText: model.detailText || model.linkUrl || ""
 

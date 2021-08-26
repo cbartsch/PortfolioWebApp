@@ -283,7 +283,7 @@ This game is not related with the other Blockoban game by BonusLevel.org (Jean-P
 Boolitaire is a strategic card game based on Boolean logic.
 The gameplay has some similarities to the classic solitaire.
 You can play alone or with a partner.
-
+<br />
 <ul>
   <li><b>General:</b>
     Boolitaire is a strategic card game based on Boolean logic.
