@@ -20,6 +20,34 @@ Item {
     return ["apps", "games"].indexOf(section) >= 0
   }
 
+  function imageModel(model) {
+    if(!model || !model.detailImages) {
+      return []
+    }
+
+    var imgCount = model.detailImages.count || 0
+    var gifCount = model.detailImages.gifCount || 0
+
+    function imgList(path, count, ext, isGif) {
+      return Array.apply(null, new Array(count)).map(
+                             (n, index) => (
+                               {
+                                 isGif: isGif,
+                                 imageUrl : qsTr("%1%2/%3.%4")
+                                 .arg(path)
+                                 .arg(model.detailImages.folder)
+                                 .arg(index + 1)
+                                 .arg(ext),
+                               }))
+    }
+
+    var path = "https://cbartsch.github.io/portfolio/screenshots/"
+    var gifs = imgList(path, gifCount, "gif", true)
+    var images = imgList(path, imgCount, "png", false)
+
+    return gifs.concat(images)
+  }
+
   readonly property var mainListModel: [
     {
       section: "apps",
@@ -33,6 +61,7 @@ Item {
 
       detailImages: {
         count: 8,
+        gifCount: 1,
         folder: "slippipedia"
       },
 

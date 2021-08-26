@@ -29,7 +29,7 @@ Item {
     preferredHighlightEnd:   preferredHighlightBegin
 
     delegate: Item {
-      property alias image: image
+      readonly property var activeImage: modelData.isGif ? gifImage : image
 
       width: imgList.width * 0.9
       height: parent.height
@@ -37,13 +37,40 @@ Item {
       Rectangle {
         anchors.fill: parent
         color: Theme.secondaryBackgroundColor
-        visible: image.status !== Image.Ready
+        visible: activeImage.status !== Image.Ready
 
-        Icon {
+        Column {
           anchors.centerIn: parent
-          icon: image.status === Image.Loading
-                ? IconType.refresh
-                : IconType.warning
+          spacing: dp(Theme.contentPadding)
+
+          AppText {
+            text: qsTr("Loading image... (%1%)").arg(Math.round(activeImage.progress * 100))
+            visible: activeImage.status === Image.Loading
+          }
+
+          Icon {
+            anchors.horizontalCenter: parent.horizontalCenter
+            icon: activeImage.status === Image.Loading
+                  ? IconType.refresh
+                  : IconType.warning
+          }
+        }
+      }
+
+      AnimatedImage {
+        id: gifImage
+        width: parent.width
+        height: parent.height
+        //anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
+        smooth: true
+
+        visible: modelData.isGif === true
+        source: visible ? modelData.imageUrl : ""
+
+        MouseArea {
+          anchors.fill: parent
+          onClicked: imageSpinner.imageClicked(modelData)
         }
       }
 
@@ -56,7 +83,8 @@ Item {
         mipmap: true
         smooth: true
 
-        source: !detailItem.visible ? "" : modelData.imageUrl
+        visible: modelData.isGif !== true
+        source: visible ? modelData.imageUrl : ""
 
         MouseArea {
           anchors.fill: parent

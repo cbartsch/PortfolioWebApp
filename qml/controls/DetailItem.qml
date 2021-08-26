@@ -66,15 +66,7 @@ Item {
 
         visible: listView.count > 0
 
-        model: itemModel.detailImages
-               ? Array.apply(null, new Array(itemModel.detailImages.count)).map(
-                   (n, index) => (
-                     {
-                       imageUrl : qsTr("https://cbartsch.github.io/portfolio/screenshots/%1/%2.png")
-                       .arg(itemModel.detailImages.folder)
-                       .arg(index + 1)
-                     }))
-               : []
+        model: dataModel.imageModel(itemModel)
 
         onImageClicked: modal.showFor(spinner, qsTr("%1 (%2 images)").arg(itemModel.text).arg(spinner.listView.count))
       }
