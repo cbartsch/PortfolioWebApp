@@ -34,6 +34,29 @@ Item {
     id: content
     width: parent.width
 
+    AppListItem {
+      id: detailTextItem
+      enabled: false
+
+      text: itemModel.description || ""
+      visible: !!itemModel.description
+      backgroundColor: Theme.backgroundColor
+
+      textItem: AppText {
+        textFormat: Text.RichText
+
+        text: itemModel.description || ""
+        font.pixelSize: detailTextItem.textFontSize
+        wrapMode: Text.WordWrap
+        width: Math.min(implicitWidth, detailTextItem.textItemAvailableWidth)
+        maximumLineCount: detailTextItem.textMaximumLineCount
+        elide: Text.ElideRight
+
+        onLinkHovered: console.log("hovered link")
+        onLinkActivated: console.log("link activated", link), nativeUtils.openUrl(link)
+      }
+    }
+
     ImageSpinner {
       id: spinner
 
