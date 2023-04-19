@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
-import Felgo 3.0
+import Felgo
 
 ToolButton {
   id: toolBtn
@@ -13,7 +13,7 @@ ToolButton {
 
   RippleMouseArea {
     anchors.fill: parent
-    onPressed: mouse.accepted = false
+    onPressed: mouse => mouse.accepted = false
     hoverEffectEnabled: true
     backgroundColor: Theme.listItem.selectedBackgroundColor
     fillColor: backgroundColor
@@ -29,8 +29,8 @@ ToolButton {
   contentItem: Item {
     anchors.fill: parent
 
-    Icon {
-      icon: toolBtn.iconType
+    AppIcon {
+      iconType: toolBtn.iconType
       visible: !!icon
       anchors.centerIn: parent
       color: toolBtn.checked ? Theme.tintColor : Theme.textColor

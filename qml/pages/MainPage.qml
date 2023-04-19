@@ -1,10 +1,10 @@
 import QtQuick 2.0
-import Felgo 3.0
+import Felgo
 
 import "../model"
 import "../controls"
 
-Page {
+AppPage {
   id: mainPage
 
   property Item activeItem: null
@@ -15,7 +15,7 @@ Page {
     width: parent.width
     height: parent.height
 
-    ScrollIndicator {
+    AppScrollIndicator {
       id: scrollIndicator
     }
 
@@ -44,7 +44,7 @@ Page {
     }
 
     delegate: Column {
-      width: parent.width
+      width: parent ? parent.width : 0
 
       MainListItem {
         id: mainItem

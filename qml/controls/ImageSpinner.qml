@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Felgo 3.0
+import Felgo
 
 Item {
   id: imageSpinner
@@ -48,9 +48,9 @@ Item {
             visible: activeImage.status === Image.Loading
           }
 
-          Icon {
+          AppIcon {
             anchors.horizontalCenter: parent.horizontalCenter
-            icon: activeImage.status === Image.Loading
+            iconType: activeImage.status === Image.Loading
                   ? IconType.refresh
                   : IconType.warning
           }

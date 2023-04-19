@@ -1,5 +1,5 @@
 import QtQuick 2.14
-import Felgo 3.0
+import Felgo
 
 AppListItem {
   id: mainItem
@@ -40,18 +40,18 @@ AppListItem {
       visible: !!model.image
     }
 
-    Icon {
+    AppIcon {
       anchors.centerIn: parent
       size: parent.width
-      icon: model.icon || ""
+      iconType: model.icon || ""
       visible: !!model.icon
       color: Qt.lighter(Theme.tintColor, 2.5)
     }
   }
 
-  rightItem: Icon {
+  rightItem: AppIcon {
     anchors.verticalCenter: parent.verticalCenter
-    icon: model.linkUrl ? IconType.externallink : active ? IconType.minus : IconType.plus
+    iconType: model.linkUrl ? IconType.externallink : active ? IconType.minus : IconType.plus
   }
 
   onSelected: {

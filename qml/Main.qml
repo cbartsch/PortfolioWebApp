@@ -1,4 +1,4 @@
-import Felgo 3.0
+import Felgo
 import QtQuick 2.14
 
 import "model"
@@ -21,10 +21,9 @@ App {
   readonly property bool isMobile: isAndroid || isIos
   readonly property bool isWasmMobile: system.isPlatform(System.Wasm) && isMobile
 
-  dpScale: isWasmMobile ? 2 : 1
-  spScale: isWasmMobile ? 2 : 1
-
   onInitTheme: theme.init()
+
+  visibility: Window.FullScreen
 
   GoogleAnalytics {
     propertyId: "UA-163972040-1"

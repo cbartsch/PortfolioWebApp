@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import Felgo 3.0
+import Felgo
 
 Item {
   id: detailItem
@@ -29,9 +29,13 @@ Item {
       backgroundColor: Theme.backgroundColor
       mouseArea.enabled: false
 
+      // somehow gets overwritten to the default item with Qt 6.5
+      onTextItemChanged: textItem = detailText
+
       textItem: AppText {
         id: detailText
-        text: itemModel.description || ""
+
+        text: detailTextItem.text
 
         font.pixelSize: detailTextItem.textFontSize
         wrapMode: Text.WordWrap
@@ -39,7 +43,7 @@ Item {
         maximumLineCount: detailTextItem.textMaximumLineCount
         elide: Text.ElideRight
 
-        textFormat: Text.StyledText
+        textFormat: Text.RichText
         linkColor: Theme.tintLightColor
         onLinkActivated: nativeUtils.openUrl(link)
 
@@ -100,14 +104,14 @@ Item {
             opacity: 0.5
           }
 
-          Icon {
+          AppIcon {
             height: dp(48)
             width: visible ? height : 0
             size: dp(24)
 
             visible: !!modelData.icon
             anchors.centerIn: parent
-            icon: modelData.icon || ""
+            iconType: modelData.icon || ""
 
             Rectangle {
               anchors.fill: parent
@@ -165,11 +169,11 @@ Item {
       anchors.bottom: undefined
       height: modal.modalHeight - dp(Theme.contentPadding) * 1.2
 
-      Page {
+      AppPage {
         title: modal.title
 
         rightBarItem: IconButtonBarItem {
-          icon: IconType.close
+          iconType: IconType.close
           onClicked: modal.doClose()
         }
 
