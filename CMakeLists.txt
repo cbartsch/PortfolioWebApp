@@ -11,7 +11,7 @@ set(PRODUCT_IDENTIFIER "at.cb.PortfolioWebApp")
 set(PRODUCT_VERSION_NAME "1.0")
 set(PRODUCT_VERSION_CODE 1)
 #set(PRODUCT_LICENSE_KEY "")
-set(PRODUCT_STAGE test)
+set(PRODUCT_STAGE publish)
 
 set(FELGO_PLUGINS admob amplitude flurry gamecenter soomla)
 
@@ -30,11 +30,11 @@ felgo_configure_executable(appPortfolioWebApp)
 #deploy_resources("${QmlFiles};${AssetsFiles}")
 
 # Add QML files and resources to QML module to included them via QRC automatically:
-qt_add_qml_module(appPortfolioWebApp URI at.impossibru.PortfolioWebApp VERSION 1.0
+qt_add_qml_module(appPortfolioWebApp URI at.cb.PortfolioWebApp VERSION 1.0
 # uncomment for publishing:
     #QML_FILES ${QmlFiles}
     RESOURCES ${AssetsFiles} ${QmlFiles}
-NO_RESOURCE_TARGET_PATH
+    NO_RESOURCE_TARGET_PATH
 )
 
 if(EMSCRIPTEN)
@@ -51,5 +51,9 @@ if(EMSCRIPTEN)
 endif()
 
 target_compile_definitions(appPortfolioWebApp PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+# faster build
+#set(CMAKE_CXX_FLAGS "-O1")
+#set(CMAKE_CXX_FLAGS_RELEASE "-O1")
 
 target_link_libraries(appPortfolioWebApp PRIVATE Felgo)

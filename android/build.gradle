@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.4'
+        classpath "com.android.tools.build:gradle:${androidGradleToolsVersion}"
     }
 }
 
@@ -43,7 +43,7 @@ android {
      *******************************************************/
 
     compileSdkVersion project.hasProperty("androidCompileSdkVersion") ? androidCompileSdkVersion.toInteger() : 30
-    buildToolsVersion project.hasProperty("androidBuildToolsVersion") ? androidBuildToolsVersion : "30.0.1"
+    buildToolsVersion project.hasProperty("androidBuildToolsVersion") ? androidBuildToolsVersion : "30.0.3"
 
     compileOptions {
         sourceCompatibility 1.8
@@ -57,14 +57,6 @@ android {
         versionCode = project.hasProperty("productVersionCode") ? productVersionCode.toInteger() : 30
         versionName = project.hasProperty("productVersionName") ? productVersionName : 30
         minSdkVersion project.hasProperty("qtMinSdkVersion") ? qtMinSdkVersion.toInteger() : 21
-
-        int qtVersionNr = project.hasProperty("qtVersionInt") ? qtVersionInt.toInteger() : 5132
-        if (qtVersionNr < 5140) {
-            resValue('array', 'load_local_libs', "")
-        } else if (qtVersionNr >= 5140) {
-            resValue('array', 'bundled_in_lib', "")
-            resValue('array', 'bundled_in_assets', "")
-        }
     }
 
     buildTypes {
