@@ -3,7 +3,7 @@ import Felgo
 
 Item {
 
-  id: item
+  id: dataModel
 
   readonly property bool isAndroid: Qt.platform.os === "android"
   readonly property bool isIos: Qt.platform.os === "ios"
@@ -15,6 +15,63 @@ Item {
                                          apps: "Apps & Libraries",
                                          more: "Contact & More",
                                        })
+
+  //readonly property url dataModelUrl: Qt.resolvedUrl("../../assets/data_model.json")
+
+  // load model data from web to allow for easier updating
+  readonly property url dataModelUrl: "https://cbartsch.github.io/portfolio/data_model.json"
+
+  Component.onCompleted: loadListModel(dataModelUrl)
+
+  function loadListModel(url) {
+    HttpRequest
+      .get(url)
+      .timeout(5000)
+      .then(function(res) {
+        // the model can come in either as string or as already parsed JSON
+
+        var model = res.body
+        if(typeof model === "string") {
+          model = JSON.parse(model)
+        }
+        console.log("Loaded data model.")
+
+        model.forEach(updateModel)
+
+        dataModel.mainListModel = model
+      })
+      .catch(function(err) {
+        console.warn("Could not load list model:", err)
+      });
+  }
+
+  function updateModel(item) {
+    // replace icon type names for icon: properties
+    if(typeof item.icon === "string")      item.icon = IconType[item.icon]
+
+    // allow visibility based on platform. show mobile items on desktop too.
+    if(item.visible === "isAndroid")      item.visible = isAndroid || isDesktop
+    else if(item.visible === "isAndroid") item.visible = isIos || isDesktop
+    else if(item.visible === "isDesktop") item.visible = isDesktop
+    else if(item.visible === "isWasm")    item.visible = isWasm
+
+    // update recursively
+    Object.keys(item).forEach(key => {
+                                var o = item[key]
+                                if(typeof o === "string")      item[key] = updateString(o)
+                                else if(typeof o === "object") updateModel(o)
+                                else if(typeof o === "array")  o.forEach(updateModel)
+                              })
+  }
+
+  function updateString(s) {
+    // allow placeholders in data model
+    return s
+    .replace("%appVersionName", system.appVersionName)
+    .replace("%appVersionCode", system.appVersionCode)
+    .replace("%felgoVersion", system.felgoVersion)
+    .replace("%qtVersion", system.qtVersion)
+  }
 
   function hasDetails(section) {
     return ["apps", "games"].indexOf(section) >= 0
@@ -48,7 +105,7 @@ Item {
     return gifs.concat(images)
   }
 
-  readonly property var mainListModel: [
+  property var mainListModel: [
     {
       section: "apps",
       text: "Slippipedia",
@@ -254,6 +311,11 @@ Retro sounds & music by <a href='https://soundcloud.com/sebastian-bender-1/8-bit
           url: "https://play.google.com/store/apps/details?id=at.impossibru.electron",
           description: "Download from Google Play"
         },
+        {
+          icon: IconType.desktop,
+          url: "https://impossibru.itch.io/electron",
+          description: "Play in Browser (itch.io)"
+        },
       ]
     },
     {
@@ -299,6 +361,11 @@ This game is not related with the other Blockoban game by BonusLevel.org (Jean-P
           visible: !isIos,
           url: "https://play.google.com/store/apps/details?id=at.impossibru.blockoban",
           description: "Download from Google Play"
+        },
+        {
+          icon: IconType.desktop,
+          url: "https://www.newgrounds.com/portal/view/881340",
+          description: "Play in Browser (Newgrounds)"
         },
       ]
     },

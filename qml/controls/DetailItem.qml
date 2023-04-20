@@ -45,7 +45,7 @@ Item {
 
         textFormat: Text.RichText
         linkColor: Theme.tintLightColor
-        onLinkActivated: nativeUtils.openUrl(link)
+        onLinkActivated: link => nativeUtils.openUrl(link)
 
         MouseArea {
           anchors.fill: parent

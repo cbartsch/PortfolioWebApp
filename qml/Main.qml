@@ -18,12 +18,16 @@ App {
   readonly property bool isIos: Qt.platform.os === "ios" ||
                                 ["iPhone", "iPad", "iPod"].indexOf(webPlatform) >= 0
 
+  readonly property bool isDesktop: system.desktopPlatform
+  readonly property bool isWasm: system.isPlatform(System.Wasm)
   readonly property bool isMobile: isAndroid || isIos
-  readonly property bool isWasmMobile: system.isPlatform(System.Wasm) && isMobile
+  readonly property bool isWasmMobile: isWasm && isMobile
 
   onInitTheme: theme.init()
 
-  visibility: Window.FullScreen
+  visibility: isDesktop ? Window.Windowed : Window.FullScreen
+
+  uiScale: isWasm ? 1.5 : isMobile ? 0.75 : 1.25
 
   GoogleAnalytics {
     propertyId: "UA-163972040-1"

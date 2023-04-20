@@ -11,9 +11,10 @@ AppPage {
 
   title: qsTr("Chrisu's Games and Apps")
 
-  ListView {
+  AppListView {
     width: parent.width
     height: parent.height
+
 
     AppScrollIndicator {
       id: scrollIndicator
